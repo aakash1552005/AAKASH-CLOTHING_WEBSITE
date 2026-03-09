@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-cormorant: 'Cormorant Garamond', serif;
+    --font-jost: 'Jost', sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: #C9A84C;
+    color: #0A0A0A;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #F5F0E8;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #C9A84C;
+    border-radius: 3px;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-brand-black text-brand-white font-body text-xs tracking-[0.15em] uppercase
+           px-8 py-3.5 hover:bg-brand-charcoal transition-all duration-300
+           focus:outline-none focus:ring-2 focus:ring-brand-gold focus:ring-offset-2;
+  }
+
+  .btn-outline {
+    @apply border border-brand-black text-brand-black font-body text-xs tracking-[0.15em] uppercase
+           px-8 py-3.5 hover:bg-brand-black hover:text-brand-white transition-all duration-300
+           focus:outline-none focus:ring-2 focus:ring-brand-gold focus:ring-offset-2;
+  }
+
+  .btn-gold {
+    @apply bg-brand-gold text-brand-black font-body text-xs tracking-[0.15em] uppercase
+           px-8 py-3.5 hover:bg-brand-gold-light transition-all duration-300
+           focus:outline-none focus:ring-2 focus:ring-brand-gold focus:ring-offset-2;
+  }
+
+  .section-label {
+    @apply text-xs tracking-[0.25em] uppercase text-brand-gold font-body font-medium;
+  }
+
+  .heading-display {
+    @apply font-display font-light leading-none tracking-tight;
+  }
+
+  .product-card-hover {
+    @apply transition-transform duration-700 ease-luxury hover:scale-[1.02];
+  }
+
+  .nav-link {
+    @apply font-body text-xs tracking-[0.12em] uppercase text-brand-charcoal
+           hover:text-brand-black transition-colors duration-200 relative
+           after:absolute after:bottom-0 after:left-0 after:w-0 after:h-px
+           after:bg-brand-black after:transition-all after:duration-300
+           hover:after:w-full;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .mask-gradient-bottom {
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+}
