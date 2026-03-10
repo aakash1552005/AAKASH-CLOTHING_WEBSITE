@@ -13,6 +13,7 @@ import { formatPrice } from '@/lib/stripe'
 import { useCartStore } from '@/hooks/useCart'
 import toast from 'react-hot-toast'
 import { ProductJsonLd } from '@/components/JsonLd'
+import ReviewsSection from '@/components/product/ReviewsSection'
 
 export default function ProductDetailPage({ params }: { params: { slug: string } }) {
   const product = SAMPLE_PRODUCTS.find((p) => p.slug === params.slug)
@@ -240,8 +241,9 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
             </div>
           </section>
         )}
-      </main>
-      <Footer />
+        <ReviewsSection productId={product.id} />
+    </main>
+    <Footer />
     </>
   )
 }

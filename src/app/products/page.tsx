@@ -8,6 +8,8 @@ import CartSidebar from '@/components/cart/CartSidebar'
 import ProductCard from '@/components/product/ProductCard'
 import { SAMPLE_PRODUCTS, CATEGORIES } from '@/lib/data'
 
+
+
 const SORT_OPTIONS = [
   { value: 'featured', label: 'Featured' },
   { value: 'price-asc', label: 'Price: Low to High' },
