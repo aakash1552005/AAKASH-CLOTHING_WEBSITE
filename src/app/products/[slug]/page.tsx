@@ -12,6 +12,7 @@ import { SAMPLE_PRODUCTS } from '@/lib/data'
 import { formatPrice } from '@/lib/stripe'
 import { useCartStore } from '@/hooks/useCart'
 import toast from 'react-hot-toast'
+import { ProductJsonLd } from '@/components/JsonLd'
 
 export default function ProductDetailPage({ params }: { params: { slug: string } }) {
   const product = SAMPLE_PRODUCTS.find((p) => p.slug === params.slug)
@@ -53,6 +54,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
 
   return (
     <>
+    <ProductJsonLd product={product} />
       <Navbar />
       <CartSidebar />
       <main className="max-w-7xl mx-auto px-6 lg:px-12 py-8 lg:py-12">
