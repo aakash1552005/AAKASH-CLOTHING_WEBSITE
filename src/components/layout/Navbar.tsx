@@ -5,13 +5,18 @@ import Link from 'next/link'
 import { ShoppingBag, Search, Menu, X, Instagram, Heart } from 'lucide-react'
 import { useCartHydrated } from '@/hooks/useCart'
 import { useWishlistStore } from '@/hooks/useWishlist'
+import { useRouter } from 'next/navigation'
+import { SAMPLE_PRODUCTS } from '@/lib/data'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
   const { count, toggleCart } = useCartHydrated()
   const cartCount = count
   const wishlistCount = useWishlistStore((state) => state.items.length)
+  const router = useRouter()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -23,6 +28,11 @@ export default function Navbar() {
     { href: '/', label: 'Home' },
     { href: '/products', label: 'Shop' },
   ]
+
+  const searchResults = SAMPLE_PRODUCTS.filter((p) =>
+    p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    p.category.toLowerCase().includes(searchQuery.toLowerCase())
+  )
 
   return (
     <>
@@ -72,20 +82,22 @@ export default function Navbar() {
             {/* Icons — Right */}
             <div className="flex items-center gap-4 lg:gap-5 ml-auto">
               <button
+                onClick={() => setSearchOpen(true)}
                 className="hidden lg:block p-1 hover:opacity-60 transition-opacity"
                 aria-label="Search"
               >
                 <Search size={17} strokeWidth={1.5} />
               </button>
-               <a
-              href="https://instagram.com/_aakash.a1"
-              target="_blank"
-              rel="noreferrer"
-              className="hidden lg:block p-1 hover:opacity-60 transition-opacity"
-              aria-label="Instagram"
-             >
-               <Instagram size={17} strokeWidth={1.5} />
-             </a>
+
+              <a
+                href="https://instagram.com/_aakash.a1"
+                target="_blank"
+                rel="noreferrer"
+                className="hidden lg:block p-1 hover:opacity-60 transition-opacity"
+                aria-label="Instagram"
+              >
+                <Instagram size={17} strokeWidth={1.5} />
+              </a>
 
               <Link
                 href="/wishlist"
@@ -158,11 +170,70 @@ export default function Navbar() {
               >
                 Wishlist
               </Link>
+              <button
+                onClick={() => { setMobileOpen(false); setSearchOpen(true) }}
+                className="font-body text-sm tracking-[0.1em] uppercase text-brand-charcoal hover:text-brand-black transition-colors text-left"
+              >
+                Search
+              </button>
             </nav>
 
             <div className="mt-auto pt-8 border-t border-brand-light-gray">
               <p className="text-xs text-brand-slate font-body">+91 8825909003</p>
               <p className="text-xs text-brand-slate font-body mt-1">aakash1552005@gmail.com</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Search Overlay */}
+      {searchOpen && (
+        <div className="fixed inset-0 z-50 bg-white flex flex-col">
+          <div className="max-w-3xl mx-auto w-full px-6 pt-8">
+            <div className="flex items-center gap-4 border-b border-brand-black pb-4">
+              <Search size={18} strokeWidth={1.5} className="text-brand-slate" />
+              <input
+                autoFocus
+                type="text"
+                placeholder="Search for products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="flex-1 font-body text-lg outline-none placeholder:text-brand-slate/50"
+              />
+              <button onClick={() => { setSearchOpen(false); setSearchQuery('') }}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="mt-6 space-y-2">
+              {searchQuery.length > 0 ? (
+                searchResults.length > 0 ? (
+                  searchResults.map((p) => (
+                    <button
+                      key={p.id}
+                      onClick={() => { router.push(`/products/${p.slug}`); setSearchOpen(false); setSearchQuery('') }}
+                      className="w-full flex items-center gap-4 p-3 hover:bg-brand-cream transition-colors text-left"
+                    >
+                      <div className="w-12 h-16 bg-brand-cream relative overflow-hidden flex-shrink-0">
+                        <img src={p.images[0]} alt={p.name} className="w-full h-full object-cover" />
+                      </div>
+                      <div>
+                        <p className="font-body text-sm font-medium text-brand-black">{p.name}</p>
+                        <p className="font-body text-xs text-brand-slate capitalize">{p.category}</p>
+                        <p className="font-display text-sm mt-0.5">₹{p.price.toLocaleString('en-IN')}</p>
+                      </div>
+                    </button>
+                  ))
+                ) : (
+                  <p className="font-body text-sm text-brand-slate text-center py-12">
+                    No products found for &quot;{searchQuery}&quot;
+                  </p>
+                )
+              ) : (
+                <p className="font-body text-sm text-brand-slate text-center py-12">
+                  Start typing to search...
+                </p>
+              )}
             </div>
           </div>
         </div>
