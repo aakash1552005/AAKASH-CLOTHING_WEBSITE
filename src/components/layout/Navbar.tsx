@@ -84,7 +84,7 @@ export default function Navbar() {
                 rel="noreferrer"
                 className="hidden lg:block p-1 hover:opacity-60 transition-opacity"
                 aria-label="Instagram"
-              >
+              <a>
                 <Instagram size={17} strokeWidth={1.5} />
               </a>
 
