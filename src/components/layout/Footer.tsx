@@ -71,6 +71,7 @@ export default function Footer() {
             </h3>
             <ul className="space-y-3">
               {[
+                { label: 'Track Order', href: '/track-order' },
                 { label: 'About Us', href: '/store/about' },
                 { label: 'Size Guide', href: '/store/size-guide' },
                 { label: 'Shipping & Returns', href: '/store/shipping' },
