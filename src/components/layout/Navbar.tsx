@@ -77,16 +77,15 @@ export default function Navbar() {
               >
                 <Search size={17} strokeWidth={1.5} />
               </button>
-
-              
-                href="https://instagram.com/_aakash.a1"
-                target="_blank"
-                rel="noreferrer"
-                className="hidden lg:block p-1 hover:opacity-60 transition-opacity"
-                aria-label="Instagram"
-              <a>
-                <Instagram size={17} strokeWidth={1.5} />
-              </a>
+               <a
+              href="https://instagram.com/_aakash.a1"
+              target="_blank"
+              rel="noreferrer"
+              className="hidden lg:block p-1 hover:opacity-60 transition-opacity"
+              aria-label="Instagram"
+             >
+               <Instagram size={17} strokeWidth={1.5} />
+             </a>
 
               <Link
                 href="/wishlist"
