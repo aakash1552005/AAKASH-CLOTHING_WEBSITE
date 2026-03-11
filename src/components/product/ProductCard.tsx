@@ -7,6 +7,7 @@ import { ShoppingBag, Heart } from 'lucide-react'
 import { Product } from '@/types'
 import { formatPrice } from '@/lib/stripe'
 import { useCartStore } from '@/hooks/useCart'
+import { useWishlistStore } from '@/hooks/useWishlist'
 import toast from 'react-hot-toast'
 
 interface ProductCardProps {
@@ -16,8 +17,9 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, priority = false }: ProductCardProps) {
   const [hovered, setHovered] = useState(false)
-  const [wishlist, setWishlist] = useState(false)
   const { addItem } = useCartStore()
+  const { toggleItem, isWishlisted } = useWishlistStore()
+  const wishlisted = isWishlisted(product.id)
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -25,6 +27,12 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
     const defaultColor = product.colors[0]
     addItem(product, defaultSize, defaultColor)
     toast.success(`${product.name} added to bag`)
+  }
+
+  const handleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault()
+    toggleItem(product)
+    toast.success(wishlisted ? `Removed from wishlist` : `Added to wishlist`)
   }
 
   const discount = product.compare_at_price
@@ -50,7 +58,6 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
             }`}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />
-          {/* Second image on hover */}
           {product.images[1] && (
             <Image
               src={product.images[1]}
@@ -79,10 +86,7 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
 
           {/* Wishlist */}
           <button
-            onClick={(e) => {
-              e.preventDefault()
-              setWishlist(!wishlist)
-            }}
+            onClick={handleWishlist}
             className={`absolute top-3 right-3 w-8 h-8 bg-white/90 flex items-center justify-center
                         transition-all duration-300 ${
                           hovered ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-1'
@@ -92,7 +96,7 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
             <Heart
               size={13}
               strokeWidth={1.5}
-              className={wishlist ? 'fill-brand-black' : ''}
+              className={wishlisted ? 'fill-brand-black' : ''}
             />
           </button>
 
@@ -133,7 +137,6 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
               </span>
             )}
           </div>
-          {/* Color swatches */}
           <div className="flex gap-1.5 mt-2">
             {product.colors.slice(0, 4).map((color) => (
               <span
