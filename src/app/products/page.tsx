@@ -1,14 +1,13 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { SlidersHorizontal, ChevronDown } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import CartSidebar from '@/components/cart/CartSidebar'
 import ProductCard from '@/components/product/ProductCard'
 import { SAMPLE_PRODUCTS, CATEGORIES } from '@/lib/data'
-
-
+import { ProductGridSkeleton } from '@/components/Skeletons'
 
 const SORT_OPTIONS = [
   { value: 'featured', label: 'Featured' },
@@ -21,6 +20,12 @@ export default function ProductsPage() {
   const [category, setCategory] = useState('all')
   const [sort, setSort] = useState('featured')
   const [filtersOpen, setFiltersOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 800)
+    return () => clearTimeout(t)
+  }, [])
 
   const filtered = useMemo(() => {
     let list = [...SAMPLE_PRODUCTS]
@@ -85,7 +90,9 @@ export default function ProductsPage() {
           </p>
 
           {/* Product Grid */}
-          {filtered.length > 0 ? (
+          {loading ? (
+            <ProductGridSkeleton count={8} />
+          ) : filtered.length > 0 ? (
             <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
               {filtered.map((product, i) => (
                 <ProductCard key={product.id} product={product} priority={i < 4} />
