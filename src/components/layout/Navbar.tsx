@@ -82,13 +82,12 @@ export default function Navbar() {
             {/* Icons — Right */}
             <div className="flex items-center gap-4 lg:gap-5 ml-auto">
               <button
-                onClick={() => setSearchOpen(true)}
-                className="hidden lg:block p-1 hover:opacity-60 transition-opacity"
-                aria-label="Search"
+               onClick={() => setSearchOpen(true)}
+               className="p-1 hover:opacity-60 transition-opacity"
+               aria-label="Search"
               >
                 <Search size={17} strokeWidth={1.5} />
               </button>
-
               <a
                 href="https://instagram.com/_aakash.a1"
                 target="_blank"
@@ -170,12 +169,7 @@ export default function Navbar() {
               >
                 Wishlist
               </Link>
-              <button
-                onClick={() => { setMobileOpen(false); setSearchOpen(true) }}
-                className="font-body text-sm tracking-[0.1em] uppercase text-brand-charcoal hover:text-brand-black transition-colors text-left"
-              >
-                Search
-              </button>
+              
             </nav>
 
             <div className="mt-auto pt-8 border-t border-brand-light-gray">
