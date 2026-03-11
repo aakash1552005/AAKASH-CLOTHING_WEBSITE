@@ -22,6 +22,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
   const [selectedColor, setSelectedColor] = useState('')
   const [activeImage, setActiveImage] = useState(0)
   const [wishlist, setWishlist] = useState(false)
+  const [sizeGuideOpen, setSizeGuideOpen] = useState(false)
 
   if (!product) {
     return (
@@ -152,7 +153,9 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 <p className="font-body text-xs tracking-[0.15em] uppercase text-brand-charcoal">
                   Size{selectedSize && <span className="text-brand-gold ml-2 normal-case tracking-normal">{selectedSize}</span>}
                 </p>
-                <button className="font-body text-xs text-brand-slate underline underline-offset-2 hover:text-brand-black transition-colors">
+                <button 
+                  onClick={() => setSizeGuideOpen(true)}
+                  className="font-body text-xs text-brand-slate underline underline-offset-2 hover:text-brand-black transition-colors">
                   Size Guide
                 </button>
               </div>
@@ -244,6 +247,37 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
         <ReviewsSection productId={product.id} />
     </main>
     <Footer />
+    {sizeGuideOpen && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => setSizeGuideOpen(false)}>
+    <div className="bg-white max-w-lg w-full mx-4 p-8" onClick={(e) => e.stopPropagation()}>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="heading-display text-2xl">Size Guide</h2>
+        <button onClick={() => setSizeGuideOpen(false)} className="text-brand-slate hover:text-brand-black text-xl">✕</button>
+      </div>
+      <table className="w-full font-body text-sm border-collapse">
+        <thead>
+          <tr className="border-b border-brand-light-gray">
+            <th className="text-left py-2 font-medium">Size</th>
+            <th className="text-left py-2 font-medium">Chest</th>
+            <th className="text-left py-2 font-medium">Waist</th>
+            <th className="text-left py-2 font-medium">Length</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-brand-light-gray text-brand-slate">
+          {[['XS','82–86','68–72','68'],['S','86–90','72–76','70'],['M','90–96','76–82','72'],['L','96–102','82–88','74'],['XL','102–108','88–94','76'],['XXL','108–116','94–102','78']].map(([size,chest,waist,length]) => (
+            <tr key={size}>
+              <td className="py-2">{size}</td>
+              <td className="py-2">{chest}</td>
+              <td className="py-2">{waist}</td>
+              <td className="py-2">{length}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="font-body text-xs text-brand-slate mt-4">All measurements in centimetres.</p>
+    </div>
+  </div>
+)}
     </>
   )
 }
