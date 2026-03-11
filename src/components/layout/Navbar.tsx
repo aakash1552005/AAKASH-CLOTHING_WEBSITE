@@ -2,14 +2,16 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { ShoppingBag, Search, Menu, X, Instagram } from 'lucide-react'
+import { ShoppingBag, Search, Menu, X, Instagram, Heart } from 'lucide-react'
 import { useCartHydrated } from '@/hooks/useCart'
+import { useWishlistStore } from '@/hooks/useWishlist'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const { count, toggleCart } = useCartHydrated()
   const cartCount = count
+  const wishlistCount = useWishlistStore((state) => state.items.length)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -48,7 +50,7 @@ export default function Navbar() {
               <Menu size={20} />
             </button>
 
-            {/* Logo — Left */}
+            {/* Logo */}
             <Link href="/" className="text-center mr-10">
               <span className="font-display text-2xl lg:text-3xl font-light tracking-[0.08em] text-brand-black block leading-none">
                 AAKASH
@@ -76,7 +78,7 @@ export default function Navbar() {
                 <Search size={17} strokeWidth={1.5} />
               </button>
 
-              <a
+              
                 href="https://instagram.com/_aakash.a1"
                 target="_blank"
                 rel="noreferrer"
@@ -85,6 +87,19 @@ export default function Navbar() {
               >
                 <Instagram size={17} strokeWidth={1.5} />
               </a>
+
+              <Link
+                href="/wishlist"
+                className="relative p-1 hover:opacity-60 transition-opacity"
+                aria-label="Wishlist"
+              >
+                <Heart size={18} strokeWidth={1.5} />
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-brand-gold text-brand-black text-[9px] font-body font-medium w-4 h-4 rounded-full flex items-center justify-center">
+                    {wishlistCount}
+                  </span>
+                )}
+              </Link>
 
               <button
                 onClick={toggleCart}
@@ -137,6 +152,13 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
+              <Link
+                href="/wishlist"
+                className="font-body text-sm tracking-[0.1em] uppercase text-brand-charcoal hover:text-brand-black transition-colors"
+                onClick={() => setMobileOpen(false)}
+              >
+                Wishlist
+              </Link>
             </nav>
 
             <div className="mt-auto pt-8 border-t border-brand-light-gray">
