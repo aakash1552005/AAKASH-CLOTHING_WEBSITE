@@ -1,13 +1,20 @@
-# AAKASH CLOTHING — Premium E-Commerce
+# 👕 Aakash Clothing — Premium E-Commerce
 
-A premium Next.js 14 e-commerce website for Aakash Clothing, built with Supabase, Stripe, and Tailwind CSS.
+![Next.js](https://img.shields.io/badge/Next.js_14-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+![Stripe](https://img.shields.io/badge/Stripe-626CD9?style=for-the-badge&logo=stripe&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
-**Live Preview:** Deploy to Vercel (see instructions below)
+> A premium full-stack e-commerce website for Aakash Clothing, built with Next.js 14, Supabase, Stripe & Tailwind CSS.
+
+🌐 **Live Demo:** [aakash-clothing-website-t7c7.vercel.app](https://aakash-clothing-website-t7c7.vercel.app/)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/aakash1552005/Aakash-Clothing-Website)
 
 ---
 
 ## 🗂 Project Structure
-
 ```
 aakash-clothing/
 ├── src/
@@ -55,21 +62,18 @@ aakash-clothing/
 ## ⚡ Quick Start
 
 ### 1. Clone & Install
-
 ```bash
-git clone https://github.com/yourusername/aakash-clothing.git
+git clone https://github.com/aakash1552005/Aakash-Clothing-Website.git
 cd aakash-clothing
 npm install
 ```
 
 ### 2. Configure Environment Variables
-
 ```bash
 cp .env.example .env.local
 ```
 
 Fill in your `.env.local`:
-
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
@@ -99,7 +103,6 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 4. Copy the webhook signing secret
 
 ### 5. Run Locally
-
 ```bash
 npm run dev
 ```
@@ -117,52 +120,37 @@ Open [http://localhost:3000](http://localhost:3000)
 | `orders` | Customer orders with Stripe session tracking |
 | `order_items` | Individual items within each order |
 
-**Note:** Prices are stored in paise (₹1 = 100 paise) to avoid floating point issues.
+> 💡 Prices are stored in paise (₹1 = 100 paise) to avoid floating point issues.
 
 ---
 
-## 💳 Stripe Integration
-
-The checkout flow:
-
-1. Customer fills shipping details on `/checkout`
-2. `POST /api/stripe/create-checkout-session` creates a Stripe session
-3. Customer is redirected to Stripe's hosted checkout page
-4. On success, customer lands on `/checkout/success`
-5. Stripe sends a webhook to `/api/stripe/webhook`
-6. Webhook updates the order status in Supabase
-
----
-
-## 🚀 Deploy to Vercel
-
-### Option A: One-Click Deploy
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/aakash-clothing)
-
-### Option B: Manual Deploy
-
-```bash
-npm i -g vercel
-vercel login
-vercel --prod
+## 💳 Stripe Payment Flow
+```
+Customer fills checkout form
+        ↓
+POST /api/stripe/create-checkout-session
+        ↓
+Redirected to Stripe hosted checkout
+        ↓
+Success → /checkout/success
+        ↓
+Stripe webhook → /api/stripe/webhook
+        ↓
+Order status updated in Supabase ✅
 ```
 
-Add all environment variables in **Vercel Dashboard → Settings → Environment Variables**.
+---
 
-### CI/CD via GitHub Actions
+## 📱 Pages
 
-Add these secrets to your GitHub repository (**Settings → Secrets**):
-
-| Secret | Value |
-|--------|-------|
-| `VERCEL_TOKEN` | From Vercel dashboard |
-| `NEXT_PUBLIC_SUPABASE_URL` | Your Supabase URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Your Supabase anon key |
-| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key |
-| `NEXT_PUBLIC_APP_URL` | Your production URL |
-
-Pushes to `main` will automatically build and deploy.
+| Route | Description |
+|-------|-------------|
+| `/` | Home — Hero, categories, featured products, reviews |
+| `/products` | Product listing with filter + sort |
+| `/products/[slug]` | Product detail with image gallery |
+| `/cart` | Cart with quantity management |
+| `/checkout` | Checkout → Stripe payment |
+| `/admin/dashboard` | Admin panel (orders, products) |
 
 ---
 
@@ -180,33 +168,38 @@ Pushes to `main` will automatically build and deploy.
 
 ---
 
-## 📱 Pages
+## 🚀 Deploy to Vercel
+```bash
+npm i -g vercel
+vercel login
+vercel --prod
+```
 
-| Route | Description |
-|-------|-------------|
-| `/` | Home — Hero, categories, featured products, reviews |
-| `/products` | Product listing with filter + sort |
-| `/products/[slug]` | Product detail with image gallery |
-| `/cart` | Cart with quantity management |
-| `/checkout` | Checkout → Stripe payment |
-| `/admin/dashboard` | Admin panel (orders, products) |
+Add all environment variables in **Vercel Dashboard → Settings → Environment Variables**.
+
+### CI/CD via GitHub Actions
+
+| Secret | Value |
+|--------|-------|
+| `VERCEL_TOKEN` | From Vercel dashboard |
+| `NEXT_PUBLIC_SUPABASE_URL` | Your Supabase URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Your Supabase anon key |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key |
+| `NEXT_PUBLIC_APP_URL` | Your production URL |
 
 ---
 
 ## 🔐 Admin Access
-
-To make a user an admin, run in Supabase SQL editor:
-
 ```sql
 UPDATE public.users SET role = 'admin' WHERE email = 'aakash1552005@gmail.com';
 ```
 
 ---
 
-## 📞 Contact
+## 👨‍💻 Author
 
-**Aakash Clothing**  
-No:12, Gandhi Second Street, Puzhal, Chennai, India  
-📞 +91 8825909003  
-📧 aakash1552005@gmail.com  
-📸 [@_aakash.a1](https://instagram.com/_aakash.a1)
+**Aakash S S**
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin)](https://www.linkedin.com/in/aakash-s-s-88b91a301)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat&logo=github)](https://github.com/aakash1552005)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=flat)](https://aakash-clothing-website-t7c7.vercel.app/)
+[![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=flat&logo=instagram&logoColor=white)](https://instagram.com/_aakash.a1)
