@@ -46,13 +46,18 @@ export default function Footer() {
               Shop
             </h3>
             <ul className="space-y-3">
-              {['New Arrivals', 'Shirts', 'Dresses', 'Pants', 'Sale'].map((item) => (
-                <li key={item}>
+              {[
+                { label: 'New Arrivals', href: '/products?sort=newest' },
+                { label: 'Shirts', href: '/products?category=shirts' },
+                { label: 'Dresses', href: '/products?category=dresses' },
+                { label: 'Pants', href: '/products?category=pants' },
+              ].map((item) => (
+                <li key={item.label}>
                   <Link
-                    href="/products"
+                    href={item.href}
                     className="font-body text-sm text-brand-cream/60 hover:text-brand-cream transition-colors tracking-wide"
                   >
-                    {item}
+                    {item.label}
                   </Link>
                 </li>
               ))}
@@ -65,13 +70,20 @@ export default function Footer() {
               Information
             </h3>
             <ul className="space-y-3">
-              {['About Us', 'Size Guide', 'Shipping & Returns', 'Care Instructions', 'Privacy Policy', 'Terms of Service'].map((item) => (
-                <li key={item}>
+              {[
+                { label: 'About Us', href: '/store/about' },
+                { label: 'Size Guide', href: '/store/size-guide' },
+                { label: 'Shipping & Returns', href: '/store/shipping' },
+                { label: 'Care Instructions', href: '/store/care' },
+                { label: 'Privacy Policy', href: '/store/privacy' },
+                { label: 'Terms of Service', href: '/store/terms' },
+              ].map((item) => (
+                <li key={item.label}>
                   <Link
-                    href="/"
+                    href={item.href}
                     className="font-body text-sm text-brand-cream/60 hover:text-brand-cream transition-colors tracking-wide"
                   >
-                    {item}
+                    {item.label}
                   </Link>
                 </li>
               ))}
